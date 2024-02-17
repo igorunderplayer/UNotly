@@ -1,11 +1,48 @@
+import { useState } from "react";
 import { NoteList } from "../NoteList";
 
 const NoteSidebar: React.FC = () => {
+  const [open, setOpen] = useState(true);
+
+  if (!open) {
+    return (
+      <aside className="bg-zinc-800 w-14 h-full flex flex-col rounded-r-xl justify-between p-2">
+        <div className="flex flex-col">
+          <button
+            className="text-zinc-400 text-center font-semibold text-lg p-2"
+            onClick={() => setOpen(true)}
+          >
+            <span>-&gt;</span>
+          </button>
+        </div>
+
+        <div className="flex flex-col">
+          <div className="rounded-full overflow-hidden w-8 h-8">
+            <img
+              className="w-full h-full"
+              src="https://github.com/igorunderplayer.png"
+              alt=""
+            />
+          </div>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside className="bg-zinc-800 w-72 h-full rounded-r-xl flex flex-col justify-between">
-      <h2 className="text-zinc-400 text-center font-semibold text-lg p-3">
-        UNotly
-      </h2>
+      <div className="flex flex-row justify-between p-2">
+        <h2 className="text-zinc-400 text-center font-semibold text-lg p-2">
+          UNotly
+        </h2>
+
+        <button
+          className="text-zinc-400 text-center font-semibold text-lg p-2"
+          onClick={() => setOpen(false)}
+        >
+          <span>&lt;-</span>
+        </button>
+      </div>
 
       <NoteList />
 

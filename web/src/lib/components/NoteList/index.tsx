@@ -36,7 +36,7 @@ const NoteList: React.FC = () => {
 
   return (
     <nav className="h-full w-full">
-      <ul className="flex flex-col gap-2 p-2">
+      <ul className="flex flex-col p-2">
         {notes.map((note) => (
           <li
             className="p-2 bg-transparent rounded-lg transition-colors hover:opacity-60 data-[selected=true]:bg-zinc-700"

@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { auth } from "../../firebase";
+import { useAuth } from "../../hooks/useAuth";
 import { NoteList } from "../NoteList";
 
 const NoteSidebar: React.FC = () => {
   const [open, setOpen] = useState(true);
+
+  const { user } = useAuth(auth);
 
   if (!open) {
     return (
@@ -18,11 +22,7 @@ const NoteSidebar: React.FC = () => {
 
         <div className="flex flex-col">
           <div className="rounded-full overflow-hidden w-8 h-8">
-            <img
-              className="w-full h-full"
-              src="https://github.com/igorunderplayer.png"
-              alt=""
-            />
+            <img className="w-full h-full" src={user?.photoURL ?? ""} alt="" />
           </div>
         </div>
       </aside>
@@ -46,13 +46,15 @@ const NoteSidebar: React.FC = () => {
 
       <NoteList />
 
-      <div className="bg-zinc-950 p-3 rounded-t-xl rounded-br-xl flex flex-row align-middle">
+      <div className="bg-zinc-950 p-3 rounded-t-xl rounded-br-xl flex flex-row justify-between align-middle">
         <div className="rounded-full overflow-hidden w-12 h-12">
-          <img
-            className="w-full h-full"
-            src="https://github.com/igorunderplayer.png"
-            alt=""
-          />
+          <img className="w-full h-full" src={user?.photoURL ?? ""} alt="" />
+        </div>
+
+        <div>
+          <button className="text-white" onClick={() => auth.signOut()}>
+            Logout
+          </button>
         </div>
       </div>
     </aside>

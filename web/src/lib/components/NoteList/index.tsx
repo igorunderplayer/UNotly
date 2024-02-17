@@ -42,6 +42,7 @@ const NoteList: React.FC = () => {
             className="p-2 bg-transparent rounded-lg transition-colors hover:opacity-60 data-[selected=true]:bg-zinc-700"
             data-selected={searchParams.get("noteId") == note.id}
             onClick={() => handleOnNavigate(note.id)}
+            key={note.id}
           >
             <a className="text-zinc-200">{note.title}</a>
           </li>

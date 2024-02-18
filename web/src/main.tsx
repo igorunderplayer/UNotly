@@ -6,6 +6,8 @@ import { NotesPage } from "./routes/notes";
 import { RootPage } from "./routes/root";
 
 import "./index.css";
+import { LoginPage } from "./routes/login";
+import { RegisterPage } from "./routes/register";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +16,16 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    element: <LoginPage />,
+    path: "/login",
+  },
+  {
     path: "/notes",
     element: <NotesPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
   },
 ]);
 

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const RootPage: React.FC = () => {
   const { user } = useAuth(auth);
   return (
-    <main>
+    <main className="flex w-screen h-screen bg-zinc-900">
       <h1>This is the root route!! 😀</h1>
 
       {!user ? (

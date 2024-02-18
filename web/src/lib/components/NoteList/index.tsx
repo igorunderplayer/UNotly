@@ -52,12 +52,12 @@ const NoteList: React.FC = () => {
       <ul className="flex flex-col p-2">
         {notes.map((note) => (
           <li
-            className="p-2 bg-transparent rounded-lg transition-colors hover:opacity-60 data-[selected=true]:bg-zinc-700"
+            className="p-2 bg-transparent rounded-lg transition-colors truncate text-zinc-200  hover:opacity-60 data-[selected=true]:bg-zinc-700 "
             data-selected={searchParams.get("noteId") == note.id}
             onClick={() => handleOnNavigate(note.id)}
             key={note.id}
           >
-            <a className="text-zinc-200">{note.title}</a>
+            <a>{note.title}</a>
           </li>
         ))}
       </ul>

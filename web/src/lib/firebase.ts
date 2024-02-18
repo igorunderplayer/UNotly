@@ -2,14 +2,18 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+const env = import.meta.env
+
+console.log(env)
+
 const firebaseConfig = {
-  apiKey: "AIzaSyD2RvUESYEY3njTBwBDc1hefzY2UftLBS0",
-  authDomain: "mynotes-333ca.firebaseapp.com",
-  projectId: "mynotes-333ca",
-  storageBucket: "mynotes-333ca.appspot.com",
-  messagingSenderId: "62348278998",
-  appId: "1:62348278998:web:3f6589a089e9fc89e65d77",
-  measurementId: "G-QN1KWFB6L5"
+  apiKey: env.VITE_FIREBASE_API_KEY,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.VITE_FIREBASE_APP_ID,
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);

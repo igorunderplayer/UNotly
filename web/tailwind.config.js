@@ -7,5 +7,5 @@ export default {
       sans: ['"Inter"', "Roboto", "sans-serif"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

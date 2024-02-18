@@ -20,7 +20,10 @@ const NotesPage: React.FC = () => {
   useEffect(() => {
     const noteId = searchParams.get("noteId");
 
-    if (!noteId) return;
+    if (!noteId) {
+      setNote(null);
+      return;
+    }
 
     const docRef = doc(firestore, "notes", noteId);
 

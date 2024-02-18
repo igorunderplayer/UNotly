@@ -1,12 +1,56 @@
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useState } from "react";
-import { auth } from "../../firebase";
+import { useSearchParams } from "react-router-dom";
+import { auth, firestore } from "../../firebase";
 import { useAuth } from "../../hooks/useAuth";
+import { DeleteForever } from "../../icons/DeleteForever";
+import { NoteAdd } from "../../icons/NoteAdd";
+import { TabClose } from "../../icons/TabClose";
 import { NoteList } from "../NoteList";
 
 const NoteSidebar: React.FC = () => {
   const [open, setOpen] = useState(true);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { user } = useAuth(auth);
+
+  async function handleAddNote() {
+    if (!user) return;
+    const ref = collection(firestore, "notes");
+
+    const doc = await addDoc(ref, {
+      owner: user.uid,
+      title: "Nova nota...",
+      content: "",
+      access: [],
+    });
+
+    setSearchParams((state) => {
+      state.set("noteId", doc.id);
+
+      return state;
+    });
+  }
+
+  function handleCloseNote() {
+    setSearchParams((state) => {
+      state.delete("noteId");
+      return state;
+    });
+  }
+
+  async function handleDeleteNote() {
+    const noteId = searchParams.get("noteId");
+
+    if (!noteId) return;
+
+    const noteRef = doc(collection(firestore, "notes"), noteId);
+
+    // TODO: dont use native prompt
+    if (confirm("Você tem certeza que quer deletar esta nota?")) {
+      await deleteDoc(noteRef);
+    }
+  }
 
   if (!open) {
     return (
@@ -35,6 +79,20 @@ const NoteSidebar: React.FC = () => {
         <h2 className="text-zinc-400 text-center font-semibold text-lg p-2">
           UNotly
         </h2>
+
+        <div className="flex flex-row gap-2">
+          <button onClick={handleAddNote}>
+            <NoteAdd />
+          </button>
+
+          <button onClick={handleCloseNote}>
+            <TabClose />
+          </button>
+
+          <button onClick={handleDeleteNote}>
+            <DeleteForever />
+          </button>
+        </div>
 
         <button
           className="text-zinc-400 text-center font-semibold text-lg p-2"

@@ -2,7 +2,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { Note } from "../../../routes/notes";
 import { firestore } from "../../firebase";
 import { NoteTextArea } from "../NoteTextArea";
-import { NoteTitle } from "../NoteTittle";
+import { NoteTitle } from "../NoteTitle";
 
 interface Props {
   note: Note;

@@ -1,4 +1,10 @@
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { auth, firestore } from "../../firebase";
@@ -23,6 +29,7 @@ const NoteSidebar: React.FC = () => {
       title: "Nova nota...",
       content: "",
       access: [],
+      createdAt: serverTimestamp(),
     });
 
     setSearchParams((state) => {

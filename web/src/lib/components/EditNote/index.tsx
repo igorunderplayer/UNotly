@@ -12,7 +12,7 @@ const EditNote: React.FC<Props> = ({ note }) => {
   function onChangeTitle(title: string) {
     console.log(title, note.id);
 
-    if (title.length > 1) {
+    if (title.length >= 1) {
       const docRef = doc(firestore, "notes", note.id);
       updateDoc(docRef, {
         title,

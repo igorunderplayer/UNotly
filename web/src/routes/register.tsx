@@ -2,12 +2,14 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../lib/firebase";
 
 const RegisterPage: React.FC = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,7 +18,15 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const credential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await updateProfile(credential.user, {
+        displayName: name,
+      });
       navigate("/notes");
     } catch (err) {
       // TODO: Error handling
@@ -44,6 +54,12 @@ const RegisterPage: React.FC = () => {
           onSubmit={handleRegisterSubmit}
           className="flex flex-col gap-2 w-full"
         >
+          <input
+            className="bg-zinc-900 rounded-md p-2 text-zinc-200 outline-cyan-200 outline-1"
+            type="text"
+            placeholder="Nome"
+            onChange={(e) => setName(e.target.value)}
+          />
           <input
             className="bg-zinc-900 rounded-md p-2 text-zinc-200 outline-cyan-200 outline-1"
             type="email"

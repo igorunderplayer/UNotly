@@ -8,7 +8,7 @@ interface Props {
 const MarkdownText: React.FC<Props> = ({ text }) => {
   return (
     <div
-      className="h-full w-full prose prose-zinc max-w-none prose-invert bg-transparent p-4 whitespace-pre overflow-scroll"
+      className="prose prose-zinc max-w-none w-full h-full prose-invert bg-transparent p-4 whitespace-pre"
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(marked.parse(text).toString()),
       }}

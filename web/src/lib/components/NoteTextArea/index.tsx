@@ -1,17 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { RenderType } from "../EditNote/index.tsx";
 import { MarkdownText } from "../MarkdownText/index.tsx";
-import { RawTextEditor } from "../RawTextEditor/index.tsx";
+import { RawTextEditor } from "../RawTextEditor/index.tsx.tsx";
 interface Props {
   content: string;
+  renderType: RenderType;
   onChange: (value: string) => unknown;
 }
 
-type RenderType = "raw" | "preview" | "both";
-
-const NoteTextArea: React.FC<Props> = ({ content, onChange }) => {
+const NoteTextArea: React.FC<Props> = ({ content, onChange, renderType }) => {
   const [text, setText] = useState("");
-
-  const [renderType, setRenderType] = useState<RenderType>("raw");
 
   function handleChange(e: ChangeEvent<HTMLTextAreaElement>) {
     setText(e.target.value);
@@ -26,53 +24,35 @@ const NoteTextArea: React.FC<Props> = ({ content, onChange }) => {
     console.log("typed");
   }, [content]);
 
-  return (
-    <div className="flex flex-col w-full h-full">
-      <div className="flex flex-row w-full h-full">
-        {renderType == "both" && (
-          <>
-            <RawTextEditor text={text} onChange={handleChange} />
-            <MarkdownText text={text} />
-          </>
-        )}
-
-        {renderType == "raw" && (
-          <>
-            <RawTextEditor text={text} onChange={handleChange} />
-          </>
-        )}
-
-        {renderType == "preview" && (
-          <>
-            <MarkdownText text={text} />
-          </>
-        )}
+  if (renderType == "raw") {
+    return (
+      <div className="flex flex-grow">
+        <RawTextEditor text={text} onChange={handleChange} />
       </div>
+    );
+  }
 
-      <div className="flex flex-row w-full p-2 items-center">
-        <div className="flex flex-row divide-x divide-zinc-800 ">
-          <button
-            className="p-2  bg-zinc-200 hover:opacity-60 rounded-l-lg"
-            onClick={() => setRenderType("raw")}
-          >
-            Editar
-          </button>
-          <button
-            className="p-2  bg-zinc-200 hover:opacity-60"
-            onClick={() => setRenderType("preview")}
-          >
-            Preview
-          </button>
-          <button
-            className="p-2  bg-zinc-200 hover:opacity-60 rounded-r-lg"
-            onClick={() => setRenderType("both")}
-          >
-            Ambos
-          </button>
+  if (renderType == "both") {
+    return (
+      <div className="flex flex-grow flex-row overflow-hidden">
+        <div className="w-1/2">
+          <RawTextEditor text={text} onChange={handleChange} />
+        </div>
+
+        <div className="w-1/2 overflow-scroll">
+          <MarkdownText text={text} />
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  if (renderType == "preview") {
+    return (
+      <div className="flex flex-grow overflow-scroll">
+        <MarkdownText text={text} />
+      </div>
+    );
+  }
 };
 
 export { NoteTextArea };

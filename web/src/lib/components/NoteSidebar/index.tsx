@@ -18,7 +18,7 @@ const NoteSidebar: React.FC = () => {
   const [open, setOpen] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const { user } = useAuth(auth);
+  const { user } = useAuth();
 
   async function handleAddNote() {
     if (!user) return;

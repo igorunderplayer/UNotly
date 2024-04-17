@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { EditNote } from "../lib/components/EditNote";
 import { NoteSidebar } from "../lib/components/NoteSidebar";
-import { auth, firestore } from "../lib/firebase";
+import { firestore } from "../lib/firebase";
 import { useAuth } from "../lib/hooks/useAuth";
 export interface Note {
   id: string;
@@ -13,7 +13,7 @@ export interface Note {
 }
 
 const NotesPage: React.FC = () => {
-  const { user } = useAuth(auth);
+  const { user } = useAuth();
   const [note, setNote] = useState<Note | null>(null);
   const [searchParams] = useSearchParams();
 

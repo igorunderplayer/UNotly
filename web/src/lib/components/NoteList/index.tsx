@@ -8,11 +8,11 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Note } from "../../../routes/notes";
-import { auth, firestore } from "../../firebase";
+import { firestore } from "../../firebase";
 import { useAuth } from "../../hooks/useAuth";
 
 const NoteList: React.FC = () => {
-  const { user } = useAuth(auth);
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = useState<Note[]>([]);
   const [sharedNotes, setSharedNotes] = useState<Note[]>([]);
@@ -23,7 +23,7 @@ const NoteList: React.FC = () => {
     const q = query(
       collection(firestore, "notes"),
       where("access", "array-contains", user.uid),
-      orderBy("createdAt", "desc")
+      orderBy("createdAt", "desc"),
     );
 
     const subscriber = onSnapshot(q, (snapshot) => {
@@ -33,7 +33,7 @@ const NoteList: React.FC = () => {
           owner: doc.data().owner,
           title: doc.data().title,
           content: doc.data().content,
-        }))
+        })),
       );
     });
 
@@ -46,7 +46,7 @@ const NoteList: React.FC = () => {
     const q = query(
       collection(firestore, "notes"),
       where("owner", "==", user.uid),
-      orderBy("createdAt", "desc")
+      orderBy("createdAt", "desc"),
     );
 
     const subscriber = onSnapshot(q, (snapshot) => {
@@ -56,7 +56,7 @@ const NoteList: React.FC = () => {
           owner: doc.data().owner,
           title: doc.data().title,
           content: doc.data().content,
-        }))
+        })),
       );
     });
 
@@ -86,7 +86,7 @@ const NoteList: React.FC = () => {
       <ul className="flex flex-col p-2">
         {notes.map((note) => (
           <li
-            className="p-2 bg-transparent rounded-lg transition-colors truncate text-zinc-200  hover:opacity-60 data-[selected=true]:bg-zinc-700 "
+            className="p-2 bg-transparent rounded-lg transition-colors truncate text-zinc-200 cursor-pointer hover:opacity-60 data-[selected=true]:bg-zinc-700 "
             data-selected={searchParams.get("noteId") == note.id}
             onClick={() => handleOnNavigate(note.id)}
             key={note.id}

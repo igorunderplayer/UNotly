@@ -7,7 +7,6 @@ function useNote(noteId?: string | null) {
   const [note, setNote] = useState<Note | null>(null);
 
   useEffect(() => {
-
     if (!noteId) {
       setNote(null);
       return;
@@ -30,7 +29,7 @@ function useNote(noteId?: string | null) {
   }, [noteId]);
 
   return {
-    note
+    note,
   };
 }
 

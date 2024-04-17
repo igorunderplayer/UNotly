@@ -1,9 +1,9 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 
 import { doc, setDoc } from "firebase/firestore";
-import { User } from "firebase/auth";
+import { Auth, User } from "firebase/auth";
 
-import { auth, firestore } from "../firebase";
+import { firestore } from "../firebase";
 
 export const AuthContext = createContext(
   {} as {
@@ -12,11 +12,13 @@ export const AuthContext = createContext(
 );
 
 interface Props {
+  auth: Auth;
   children?: React.ReactNode;
 }
 
-export const AuthProvider: React.FC<Props> = ({ children }) => {
+export const AuthProvider: React.FC<Props> = ({ auth, children }) => {
   const [user, setUser] = useState<User | null>(null);
+
   const onAuthStateChange = useCallback((user: User | null) => {
     setUser(user);
 
@@ -31,11 +33,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       });
     }
   }, []);
+
   useEffect(() => {
     const subscriber = auth.onAuthStateChanged(onAuthStateChange);
 
     return subscriber;
-  }, [onAuthStateChange]);
+  }, [auth, onAuthStateChange]);
 
   return (
     <AuthContext.Provider

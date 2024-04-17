@@ -1,10 +1,8 @@
-import { doc, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { EditNote } from "../lib/components/EditNote";
 import { NoteSidebar } from "../lib/components/NoteSidebar";
-import { firestore } from "../lib/firebase";
 import { useAuth } from "../lib/hooks/useAuth";
+import { useNote } from "../lib/hooks/useNote";
 export interface Note {
   id: string;
   owner: string;
@@ -13,33 +11,11 @@ export interface Note {
 }
 
 const NotesPage: React.FC = () => {
-  const { user } = useAuth();
-  const [note, setNote] = useState<Note | null>(null);
   const [searchParams] = useSearchParams();
+  const noteId = searchParams.get("noteId");
 
-  useEffect(() => {
-    const noteId = searchParams.get("noteId");
-
-    if (!noteId) {
-      setNote(null);
-      return;
-    }
-
-    const docRef = doc(firestore, "notes", noteId);
-
-    const subscriber = onSnapshot(docRef, (snapshot) => {
-      const data = snapshot.data();
-      if (!data) return;
-      setNote({
-        id: snapshot.id,
-        owner: data.owner,
-        title: data.title,
-        content: data.content,
-      });
-    });
-
-    return subscriber;
-  }, [searchParams]);
+  const { user } = useAuth();
+  const { note } = useNote(noteId);
 
   if (!user) {
     return (
